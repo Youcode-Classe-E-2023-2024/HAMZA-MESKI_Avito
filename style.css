@@ -1,0 +1,7 @@
+.Hidden {
+    display: none !important;
+}
+
+.dark {
+    background-color: green;
+}
