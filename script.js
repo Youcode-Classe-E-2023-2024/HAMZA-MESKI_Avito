@@ -81,18 +81,43 @@ backButton.addEventListener('click', function() {
 // product-form LOGIC: 
 const productForm = document.getElementById('product-form');
 const productName = document.getElementById('product-name'); 
-const productPrice = document.getElementById('product-price'); 
+const productPrice = document.getElementById('product-price');
+// adding cards logic: 
+const cardsParent = document.getElementById('cards-parent');
+// const html = `
+//     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+//         <img class="rounded-t-lg" src="img/bicycle.avif" alt="" />
+//         <div class="p-5">
+//             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Picala</h5>
+//             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">430$</p>
+//         </div>
+//     </div>
+// `;
 
 productForm.addEventListener('submit', function(event) {
     event.preventDefault();
-    
-    // insert product into prducts_db
+
     const xhr3 = new XMLHttpRequest(); 
     xhr3.open('POST', 'insertProduct.php', true); 
     const formData = new FormData(productForm);
     xhr3.send(formData);
     xhr3.addEventListener('load', function() {
         
+        console.log(this.responseText);
+
+        if (this.responseText.substring(0, 12) == 'missed input') {
+            alert('Missed Input');
+        }else {
+            userSection.classList.toggle('Hidden'); 
+            productParent.classList.toggle('Hidden');
+
+            const xhr4 = new XMLHttpRequest();
+            xhr4.open('GET', 'productsDB.php', true);
+            xhr4.send(); 
+            xhr4.addEventListener('load', function() {
+                console.log(this.responseText);
+                cardsParent.innerHTML = this.responseText;
+            })
+        }
     })
-    
 })
